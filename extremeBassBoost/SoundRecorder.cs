@@ -2,9 +2,9 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace extremeBassBoost
+namespace Utils
 {
-    class SoundRecorder
+    class SoundRecorder : SoundDeviceBase
     {
         private uint bufferLength;
         private uint sampleRate;
