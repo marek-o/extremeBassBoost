@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Utils
 {
-    class SoundWrapper
+    public class SoundWrapper
     {
         private uint bufferLength;
         private uint sampleRate;
@@ -25,7 +25,7 @@ namespace Utils
 
         private Mode mode;
 
-        public IntPtr[] bufferIP = new IntPtr[2];
+        private IntPtr[] bufferIP = new IntPtr[2];
 
         private bool finishing = false;
 
@@ -220,7 +220,7 @@ namespace Utils
             }
         }
 
-        public struct WAVEFORMATEX
+        private struct WAVEFORMATEX
         {
             public ushort wFormatTag;
             public ushort nChannels;
@@ -231,7 +231,7 @@ namespace Utils
             public ushort cbSize;
         }
 
-        public struct WAVEHDR
+        private struct WAVEHDR
         {
             public IntPtr lpData;
             public uint dwBufferLength;
@@ -243,7 +243,7 @@ namespace Utils
             public uint reserved;
         }
 
-        public struct WAVEINCAPS
+        private struct WAVEINCAPS
         {
             public ushort wMid;
             public ushort wPid;
@@ -255,7 +255,7 @@ namespace Utils
             public ushort wReserved1;
         }
 
-        public struct WAVEOUTCAPS
+        private struct WAVEOUTCAPS
         {
             public ushort wMid;
             public ushort wPid;
@@ -270,64 +270,64 @@ namespace Utils
         private const uint WAVE_MAPPER = 0xffffffff;
         private const ushort WAVE_FORMAT_PCM = 1;
         private const uint CALLBACK_FUNCTION = 0x00030000;
-        public const uint WIM_OPEN = 0x3BE;
-        public const uint WIM_CLOSE = 0x3BF;
-        public const uint WIM_DATA = 0x3C0;
+        private const uint WIM_OPEN = 0x3BE;
+        private const uint WIM_CLOSE = 0x3BF;
+        private const uint WIM_DATA = 0x3C0;
         
-        public const uint WOM_OPEN = 0x3BB;
-        public const uint WOM_CLOSE = 0x3BC;
-        public const uint WOM_DONE = 0x3BD;
+        private const uint WOM_OPEN = 0x3BB;
+        private const uint WOM_CLOSE = 0x3BC;
+        private const uint WOM_DONE = 0x3BD;
 
         [DllImport("winmm.dll")]
-        public static extern uint waveInOpen(ref IntPtr phwi, uint deviceID, ref WAVEFORMATEX wfx, SoundCallbackDelegate dwCallback, SoundWrapper dwInstance, uint dwFlags);
+        private static extern uint waveInOpen(ref IntPtr phwi, uint deviceID, ref WAVEFORMATEX wfx, SoundCallbackDelegate dwCallback, SoundWrapper dwInstance, uint dwFlags);
         [DllImport("winmm.dll")]
-        public static extern uint waveInPrepareHeader(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
+        private static extern uint waveInPrepareHeader(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
         [DllImport("winmm.dll")]
-        public static extern uint waveInAddBuffer(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
+        private static extern uint waveInAddBuffer(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
         [DllImport("winmm.dll")]
-        public static extern uint waveInStart(IntPtr phwi);
+        private static extern uint waveInStart(IntPtr phwi);
         [DllImport("winmm.dll")]
-        public static extern uint waveInGetErrorText(uint mmrError, StringBuilder pszText, uint cchText);
+        private static extern uint waveInGetErrorText(uint mmrError, StringBuilder pszText, uint cchText);
         [DllImport("winmm.dll")]
-        public static extern uint waveInReset(IntPtr phwi);
+        private static extern uint waveInReset(IntPtr phwi);
         [DllImport("winmm.dll")]
-        public static extern uint waveInStop(IntPtr phwi);
+        private static extern uint waveInStop(IntPtr phwi);
         [DllImport("winmm.dll")]
-        public static extern uint waveInClose(IntPtr phwi);
+        private static extern uint waveInClose(IntPtr phwi);
         [DllImport("winmm.dll")]
-        public static extern uint waveInUnprepareHeader(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
+        private static extern uint waveInUnprepareHeader(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
         [DllImport("winmm.dll")]
-        public static extern uint waveInGetNumDevs();
+        private static extern uint waveInGetNumDevs();
         [DllImport("winmm.dll")]
-        public static extern uint waveInGetDevCaps(uint uDeviceID, ref WAVEINCAPS pwic, uint cbwic);
+        private static extern uint waveInGetDevCaps(uint uDeviceID, ref WAVEINCAPS pwic, uint cbwic);
 
 
         [DllImport("winmm.dll")]
-        public static extern uint waveOutOpen(ref IntPtr phwi, uint deviceID, ref WAVEFORMATEX wfx, SoundCallbackDelegate dwCallback, SoundWrapper dwInstance, uint dwFlags);
+        private static extern uint waveOutOpen(ref IntPtr phwi, uint deviceID, ref WAVEFORMATEX wfx, SoundCallbackDelegate dwCallback, SoundWrapper dwInstance, uint dwFlags);
         [DllImport("winmm.dll")]
-        public static extern uint waveOutPrepareHeader(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
+        private static extern uint waveOutPrepareHeader(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
         [DllImport("winmm.dll")]
-        public static extern uint waveOutRestart(IntPtr phwi);
+        private static extern uint waveOutRestart(IntPtr phwi);
         [DllImport("winmm.dll")]
-        public static extern uint waveOutGetErrorText(uint mmrError, StringBuilder pszText, uint cchText);
+        private static extern uint waveOutGetErrorText(uint mmrError, StringBuilder pszText, uint cchText);
         [DllImport("winmm.dll")]
-        public static extern uint waveOutReset(IntPtr phwi);
+        private static extern uint waveOutReset(IntPtr phwi);
         [DllImport("winmm.dll")]
-        public static extern uint waveOutPause(IntPtr phwi);
+        private static extern uint waveOutPause(IntPtr phwi);
         [DllImport("winmm.dll")]
-        public static extern uint waveOutClose(IntPtr phwi);
+        private static extern uint waveOutClose(IntPtr phwi);
         [DllImport("winmm.dll")]
-        public static extern uint waveOutUnprepareHeader(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
+        private static extern uint waveOutUnprepareHeader(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
         [DllImport("winmm.dll")]
-        public static extern uint waveOutWrite(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
+        private static extern uint waveOutWrite(IntPtr phwi, ref WAVEHDR pwh, uint cbwh);
         [DllImport("winmm.dll")]
-        public static extern uint waveOutGetNumDevs();
+        private static extern uint waveOutGetNumDevs();
         [DllImport("winmm.dll")]
-        public static extern uint waveOutGetDevCaps(uint uDeviceID, ref WAVEOUTCAPS pwic, uint cbwic);
+        private static extern uint waveOutGetDevCaps(uint uDeviceID, ref WAVEOUTCAPS pwic, uint cbwic);
 
-        public delegate void SoundCallbackDelegate(IntPtr hwi, uint uMsg, SoundWrapper dwInstance, uint dwParam1, uint dwParam2);
+        private delegate void SoundCallbackDelegate(IntPtr hwi, uint uMsg, SoundWrapper dwInstance, uint dwParam1, uint dwParam2);
 
-        public static unsafe void SoundCallbackRecording(IntPtr hwi, uint uMsg, SoundWrapper dwInstance, uint dwParam1, uint dwParam2)
+        private static unsafe void SoundCallbackRecording(IntPtr hwi, uint uMsg, SoundWrapper dwInstance, uint dwParam1, uint dwParam2)
         {
             if (uMsg == WIM_DATA)
             {
@@ -352,7 +352,7 @@ namespace Utils
             }
         }
 
-        public static unsafe void SoundCallbackPlaying(IntPtr hwi, uint uMsg, SoundWrapper dwInstance, uint dwParam1, uint dwParam2)
+        private static unsafe void SoundCallbackPlaying(IntPtr hwi, uint uMsg, SoundWrapper dwInstance, uint dwParam1, uint dwParam2)
         {
             if (uMsg == WOM_DONE)
             {
