@@ -15,7 +15,7 @@ namespace Utils
         public event EventHandler<NewDataEventArgs> NewDataPresent;
         public event EventHandler<NewDataEventArgs> NewDataRequested;
 
-        private SoundCallbackDelegate soundCallbackDelegate; //to prevent GC
+        private SoundCallbackDelegate soundCallbackDelegate; //to prevent GC from deleting
         private IntPtr waveHandle = IntPtr.Zero;
 
         public enum Mode
@@ -24,9 +24,7 @@ namespace Utils
         }
 
         private Mode mode;
-
         private IntPtr[] bufferIP = new IntPtr[2];
-
         private bool finishing = false;
 
         public SoundWrapper(Mode mode, ushort bitsPerSample, ushort channels, uint sampleRate, uint bufferLength)
@@ -128,10 +126,6 @@ namespace Utils
             {
                 CheckError(waveInStart(waveHandle));
             }
-            else if (mode == Mode.Play)
-            {
-                CheckError(waveOutRestart(waveHandle));
-            }
         }
 
         public void Stop()
@@ -141,20 +135,15 @@ namespace Utils
                 return;
             }
 
-            Console.WriteLine("Stop {0}", DateTime.Now.ToString("HH:mm:ss.ffffff"));
-
             finishing = true;
 
             if (mode == Mode.Record)
             {
-                //CheckError(waveInStop(waveHandle));
                 CheckError(waveInReset(waveHandle));
             }
             else
             {
-                //CheckError(waveOutPause(waveHandle));
-                Console.WriteLine("waveOutReset {0}", DateTime.Now.ToString("HH:mm:ss.ffffff"));
-                CheckError(waveOutReset(waveHandle)); //FIXME why hangs here? chyba naprawiłem
+                CheckError(waveOutReset(waveHandle));
             }
 
             for (int i = 0; i < 2; ++i)
@@ -169,7 +158,6 @@ namespace Utils
                     }
                     else if (mode == Mode.Play)
                     {
-                        //FIXME can I unprepare, while playing?
                         CheckError(waveOutUnprepareHeader(waveHandle, ref *bufptr, 32));
                     }
 
@@ -197,6 +185,7 @@ namespace Utils
             {
                 const int maxLength = 256;
                 StringBuilder sb = new StringBuilder(maxLength);
+
                 if (mode == Mode.Record)
                 {
                     waveInGetErrorText(errorCode, sb, maxLength);
@@ -356,7 +345,6 @@ namespace Utils
         {
             if (uMsg == WOM_DONE)
             {
-                Console.WriteLine("WOM_DONE {0}", DateTime.Now.ToString("HH:mm:ss.ffffff"));
                 WAVEHDR* bufptr = (WAVEHDR*)dwParam1;
 
                 short[] data = new short[dwInstance.bufferLength / 2];
@@ -375,22 +363,6 @@ namespace Utils
                         System.Windows.Forms.MessageBox.Show(string.Format("error in WOM_DATA: {0} {1} {2}\n", retval, retval2, retval3));
                     }
                 }
-                else
-                {
-                    //uint retval = waveOutUnprepareHeader(dwInstance.waveHandle, ref *bufptr, 32);
-                    //if (retval != 0)
-                    //{
-                    //    System.Windows.Forms.MessageBox.Show(string.Format("error in WOM_DATA: {0}\n", retval));
-                    //}
-                }
-            }
-            else if (uMsg == WOM_OPEN)
-            {
-                Console.WriteLine("WOM_OPEN {0}", DateTime.Now.ToString("HH:mm:ss.ffffff"));
-            }
-            else if (uMsg == WOM_CLOSE)
-            {
-                Console.WriteLine("WOM_CLOSE {0}", DateTime.Now.ToString("HH:mm:ss.ffffff"));
             }
         }
 
