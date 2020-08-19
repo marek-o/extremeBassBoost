@@ -31,8 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.buttonStart = new System.Windows.Forms.Button();
-            this.buttonStop = new System.Windows.Forms.Button();
+            this.buttonStartRec = new System.Windows.Forms.Button();
+            this.buttonStopRec = new System.Windows.Forms.Button();
             this.buttonStopPlay = new System.Windows.Forms.Button();
             this.buttonStartPlay = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -41,6 +41,9 @@
             this.comboBoxRec = new System.Windows.Forms.ComboBox();
             this.comboBoxPlay = new System.Windows.Forms.ComboBox();
             this.labelQueue = new System.Windows.Forms.Label();
+            this.buttonDSPStop = new System.Windows.Forms.Button();
+            this.buttonDSPStart = new System.Windows.Forms.Button();
+            this.timerStartup = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -58,25 +61,25 @@
             this.timer1.Interval = 50;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // buttonStart
+            // buttonStartRec
             // 
-            this.buttonStart.Location = new System.Drawing.Point(25, 69);
-            this.buttonStart.Name = "buttonStart";
-            this.buttonStart.Size = new System.Drawing.Size(75, 23);
-            this.buttonStart.TabIndex = 1;
-            this.buttonStart.Text = "Start";
-            this.buttonStart.UseVisualStyleBackColor = true;
-            this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
+            this.buttonStartRec.Location = new System.Drawing.Point(25, 69);
+            this.buttonStartRec.Name = "buttonStartRec";
+            this.buttonStartRec.Size = new System.Drawing.Size(75, 23);
+            this.buttonStartRec.TabIndex = 1;
+            this.buttonStartRec.Text = "Start";
+            this.buttonStartRec.UseVisualStyleBackColor = true;
+            this.buttonStartRec.Click += new System.EventHandler(this.buttonStartRec_Click);
             // 
-            // buttonStop
+            // buttonStopRec
             // 
-            this.buttonStop.Location = new System.Drawing.Point(25, 98);
-            this.buttonStop.Name = "buttonStop";
-            this.buttonStop.Size = new System.Drawing.Size(75, 23);
-            this.buttonStop.TabIndex = 2;
-            this.buttonStop.Text = "Stop";
-            this.buttonStop.UseVisualStyleBackColor = true;
-            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
+            this.buttonStopRec.Location = new System.Drawing.Point(25, 98);
+            this.buttonStopRec.Name = "buttonStopRec";
+            this.buttonStopRec.Size = new System.Drawing.Size(75, 23);
+            this.buttonStopRec.TabIndex = 2;
+            this.buttonStopRec.Text = "Stop";
+            this.buttonStopRec.UseVisualStyleBackColor = true;
+            this.buttonStopRec.Click += new System.EventHandler(this.buttonStopRec_Click);
             // 
             // buttonStopPlay
             // 
@@ -150,11 +153,39 @@
             this.labelQueue.TabIndex = 10;
             this.labelQueue.Text = "label5";
             // 
+            // buttonDSPStop
+            // 
+            this.buttonDSPStop.Location = new System.Drawing.Point(25, 242);
+            this.buttonDSPStop.Name = "buttonDSPStop";
+            this.buttonDSPStop.Size = new System.Drawing.Size(75, 23);
+            this.buttonDSPStop.TabIndex = 12;
+            this.buttonDSPStop.Text = "Stop";
+            this.buttonDSPStop.UseVisualStyleBackColor = true;
+            this.buttonDSPStop.Click += new System.EventHandler(this.buttonDSPStop_Click);
+            // 
+            // buttonDSPStart
+            // 
+            this.buttonDSPStart.Location = new System.Drawing.Point(25, 213);
+            this.buttonDSPStart.Name = "buttonDSPStart";
+            this.buttonDSPStart.Size = new System.Drawing.Size(75, 23);
+            this.buttonDSPStart.TabIndex = 11;
+            this.buttonDSPStart.Text = "Start";
+            this.buttonDSPStart.UseVisualStyleBackColor = true;
+            this.buttonDSPStart.Click += new System.EventHandler(this.buttonDSPStart_Click);
+            // 
+            // timerStartup
+            // 
+            this.timerStartup.Enabled = true;
+            this.timerStartup.Interval = 10;
+            this.timerStartup.Tick += new System.EventHandler(this.timerStartup_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonDSPStop);
+            this.Controls.Add(this.buttonDSPStart);
             this.Controls.Add(this.labelQueue);
             this.Controls.Add(this.comboBoxPlay);
             this.Controls.Add(this.comboBoxRec);
@@ -163,8 +194,8 @@
             this.Controls.Add(this.buttonStopPlay);
             this.Controls.Add(this.buttonStartPlay);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.buttonStop);
-            this.Controls.Add(this.buttonStart);
+            this.Controls.Add(this.buttonStopRec);
+            this.Controls.Add(this.buttonStartRec);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -177,8 +208,8 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button buttonStart;
-        private System.Windows.Forms.Button buttonStop;
+        private System.Windows.Forms.Button buttonStartRec;
+        private System.Windows.Forms.Button buttonStopRec;
         private System.Windows.Forms.Button buttonStopPlay;
         private System.Windows.Forms.Button buttonStartPlay;
         private System.Windows.Forms.Label label2;
@@ -187,6 +218,9 @@
         private System.Windows.Forms.ComboBox comboBoxRec;
         private System.Windows.Forms.ComboBox comboBoxPlay;
         private System.Windows.Forms.Label labelQueue;
+        private System.Windows.Forms.Button buttonDSPStop;
+        private System.Windows.Forms.Button buttonDSPStart;
+        private System.Windows.Forms.Timer timerStartup;
     }
 }
 

@@ -100,19 +100,30 @@ namespace extremeBassBoost
             labelQueue.Text = "Bytes in queue: " + queue.Count * 1024 * 8; //FIXME
         }
 
-        private void buttonStart_Click(object sender, EventArgs e)
+        private void buttonStartRec_Click(object sender, EventArgs e)
         {
             int device = int.Parse(((string)comboBoxRec.SelectedItem).Split(':').First());
             recorder.Start(device);
         }
 
-        private void buttonStop_Click(object sender, EventArgs e)
+        private void buttonStopRec_Click(object sender, EventArgs e)
         {
             recorder.Stop();
         }
 
         private void buttonStartPlay_Click(object sender, EventArgs e)
         {
+            StartPlayer();
+        }
+
+        private void StartPlayer()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => StartPlayer()));
+                return;
+            }
+
             int device = int.Parse(((string)comboBoxPlay.SelectedItem).Split(':').First());
             player.Start(device);
         }
@@ -120,6 +131,29 @@ namespace extremeBassBoost
         private void buttonStopPlay_Click(object sender, EventArgs e)
         {
             player.Stop();
+        }
+
+        private void buttonDSPStart_Click(object sender, EventArgs e)
+        {
+            int device = int.Parse(((string)comboBoxRec.SelectedItem).Split(':').First());
+            timerStartup.Start();
+            recorder.Start(device);
+        }
+
+        private void buttonDSPStop_Click(object sender, EventArgs e)
+        {
+            recorder.Stop();
+            player.Stop();
+            queue.Clear();
+        }
+
+        private void timerStartup_Tick(object sender, EventArgs e)
+        {
+            if (queue.Count >= 4)
+            {
+                StartPlayer();
+                timerStartup.Stop();
+            }
         }
     }
 }
