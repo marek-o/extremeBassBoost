@@ -37,6 +37,29 @@ namespace extremeBassBoost
 
         Queue<short[]> queue = new Queue<short[]>();
 
+        private short bass1L, bass2L;
+        private short bass1R, bass2R;
+
+        private bool clipping = false;
+
+        private short Limit(float value)
+        {
+            if (value > short.MaxValue)
+            {
+                clipping = true;
+                return short.MaxValue;
+            }
+            else if (value < short.MinValue)
+            {
+                clipping = true;
+                return short.MinValue;
+            }
+            else
+            {
+                return (short)value;
+            }
+        }
+
         private void Player_NewDataRequested(object sender, SoundWrapper.NewDataEventArgs e)
         {
             if (queue.Count > 0)
@@ -45,15 +68,27 @@ namespace extremeBassBoost
                 Array.Copy(buf, e.data, buf.Length); //assume equal sizes
 
                 //DSP
-                for (int i = 0; i < buf.Length && i < e.data.Length; ++i)
+                for (int i = 0; i < buf.Length && i < e.data.Length; i += 2)
                 {
-                    short input = buf[i];
+                    short inputL = buf[i];
+                    short inputR = buf[i + 1];
 
-                    input = (short)(input / 10000 * 10000);
+                    //input = (short)(input / 10000 * 10000);
 
                     //input *= 2;
+                    //temp = (short)(temp + variable1 * (inputL - temp));
+                    const float scale = 0.1f;
+                    bass1L = (short)(bass1L + scale * variable1 * (inputL - bass1L));
+                    bass2L = (short)(bass2L + scale * variable1 * (bass1L - bass2L));
 
-                    e.data[i] = input;
+                    bass1R = (short)(bass1R + scale * variable1 * (inputR - bass1R));
+                    bass2R = (short)(bass2R + scale * variable1 * (bass1R - bass2R));
+
+                    short outputL = Limit(variable3 * (100 * variable2 * bass2L + inputL));
+                    short outputR = Limit(variable3 * (100 * variable2 * bass2R + inputR));
+
+                    e.data[i] = outputL;
+                    e.data[i + 1] = outputR;
                 }
 
 
@@ -98,6 +133,30 @@ namespace extremeBassBoost
             label1.Text = (samplesRecorded * 2).ToString();
             label2.Text = (samplesPlayed * 2).ToString();
             labelQueue.Text = "Bytes in queue: " + queue.Count * 1024 * 8; //FIXME
+
+            if (clipping)
+            {
+                clipping = false;
+                labelClipping.Visible = true;
+                //trackBar2.Value = (int)(trackBar2.Value * 0.9);
+            }
+            else
+            {
+                labelClipping.Visible = false;
+            }
+
+            if (queue.Any())
+            {
+                StringBuilder sb = new StringBuilder();
+                var buf = queue.Peek();
+
+                for (int i = 0; i < 10; ++i)
+                {
+                    sb.AppendLine(buf[i].ToString());
+                }
+
+                label5.Text = sb.ToString();
+            }
         }
 
         private void buttonStartRec_Click(object sender, EventArgs e)
@@ -154,6 +213,25 @@ namespace extremeBassBoost
                 StartPlayer();
                 timerStartup.Stop();
             }
+        }
+
+        private float variable1 = 0.0f;
+        private float variable2 = 0.0f;
+        private float variable3 = 0.0f;
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            variable1 = trackBar1.Value / (float)trackBar1.Maximum;
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            variable2 = trackBar2.Value / (float)trackBar2.Maximum;
+        }
+
+        private void trackBar3_Scroll(object sender, EventArgs e)
+        {
+            variable3 = trackBar3.Value / (float)trackBar3.Maximum;
         }
     }
 }
