@@ -16,9 +16,6 @@ namespace extremeBassBoost
         SoundWrapper recorder;
         SoundWrapper player;
 
-        int samplesRecorded = 0;
-        int samplesPlayed = 0;
-
         public Form1()
         {
             InitializeComponent();
@@ -33,6 +30,10 @@ namespace extremeBassBoost
 
             comboBoxPlay.Items.AddRange(player.EnumerateDevices().ToArray());
             comboBoxPlay.SelectedIndex = 0;
+
+            trackBar1.Value = 200000;
+            trackBar2.Value = 200000;
+            trackBar3.Value = 100000;
         }
 
         Queue<short[]> queue = new Queue<short[]>();
@@ -118,20 +119,15 @@ namespace extremeBassBoost
                 //    }
                 //}
             }
-
-            samplesPlayed += e.data.Length;
         }
 
         private void Recorder_NewDataPresent(object sender, SoundWrapper.NewDataEventArgs e)
         {
             queue.Enqueue(e.data);
-            samplesRecorded += e.data.Length;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            label1.Text = (samplesRecorded * 2).ToString();
-            label2.Text = (samplesPlayed * 2).ToString();
             labelQueue.Text = "Bytes in queue: " + queue.Count * 1024 * 8; //FIXME
 
             if (clipping)
@@ -219,19 +215,20 @@ namespace extremeBassBoost
         private float variable2 = 0.0f;
         private float variable3 = 0.0f;
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
             variable1 = trackBar1.Value / (float)trackBar1.Maximum;
         }
 
-        private void trackBar2_Scroll(object sender, EventArgs e)
+        private void trackBar2_ValueChanged(object sender, EventArgs e)
         {
             variable2 = trackBar2.Value / (float)trackBar2.Maximum;
         }
 
-        private void trackBar3_Scroll(object sender, EventArgs e)
+        private void trackBar3_ValueChanged(object sender, EventArgs e)
         {
             variable3 = trackBar3.Value / (float)trackBar3.Maximum;
+
         }
     }
 }

@@ -29,13 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.buttonStartRec = new System.Windows.Forms.Button();
-            this.buttonStopRec = new System.Windows.Forms.Button();
-            this.buttonStopPlay = new System.Windows.Forms.Button();
-            this.buttonStartPlay = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxRec = new System.Windows.Forms.ComboBox();
@@ -54,92 +48,34 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 43);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
-            // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 50;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // buttonStartRec
-            // 
-            this.buttonStartRec.Location = new System.Drawing.Point(25, 69);
-            this.buttonStartRec.Name = "buttonStartRec";
-            this.buttonStartRec.Size = new System.Drawing.Size(75, 23);
-            this.buttonStartRec.TabIndex = 1;
-            this.buttonStartRec.Text = "Start";
-            this.buttonStartRec.UseVisualStyleBackColor = true;
-            this.buttonStartRec.Click += new System.EventHandler(this.buttonStartRec_Click);
-            // 
-            // buttonStopRec
-            // 
-            this.buttonStopRec.Location = new System.Drawing.Point(25, 98);
-            this.buttonStopRec.Name = "buttonStopRec";
-            this.buttonStopRec.Size = new System.Drawing.Size(75, 23);
-            this.buttonStopRec.TabIndex = 2;
-            this.buttonStopRec.Text = "Stop";
-            this.buttonStopRec.UseVisualStyleBackColor = true;
-            this.buttonStopRec.Click += new System.EventHandler(this.buttonStopRec_Click);
-            // 
-            // buttonStopPlay
-            // 
-            this.buttonStopPlay.Location = new System.Drawing.Point(274, 98);
-            this.buttonStopPlay.Name = "buttonStopPlay";
-            this.buttonStopPlay.Size = new System.Drawing.Size(75, 23);
-            this.buttonStopPlay.TabIndex = 5;
-            this.buttonStopPlay.Text = "Stop";
-            this.buttonStopPlay.UseVisualStyleBackColor = true;
-            this.buttonStopPlay.Click += new System.EventHandler(this.buttonStopPlay_Click);
-            // 
-            // buttonStartPlay
-            // 
-            this.buttonStartPlay.Location = new System.Drawing.Point(274, 69);
-            this.buttonStartPlay.Name = "buttonStartPlay";
-            this.buttonStartPlay.Size = new System.Drawing.Size(75, 23);
-            this.buttonStartPlay.TabIndex = 4;
-            this.buttonStartPlay.Text = "Start";
-            this.buttonStartPlay.UseVisualStyleBackColor = true;
-            this.buttonStartPlay.Click += new System.EventHandler(this.buttonStartPlay_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(271, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "label2";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(22, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 13);
+            this.label3.Size = new System.Drawing.Size(69, 13);
             this.label3.TabIndex = 6;
-            this.label3.Text = "REC";
+            this.label3.Text = "Input device:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(271, 9);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(34, 13);
+            this.label4.Size = new System.Drawing.Size(77, 13);
             this.label4.TabIndex = 7;
-            this.label4.Text = "PLAY";
+            this.label4.Text = "Output device:";
             // 
             // comboBoxRec
             // 
             this.comboBoxRec.FormattingEnabled = true;
-            this.comboBoxRec.Location = new System.Drawing.Point(25, 127);
+            this.comboBoxRec.Location = new System.Drawing.Point(25, 25);
             this.comboBoxRec.Name = "comboBoxRec";
             this.comboBoxRec.Size = new System.Drawing.Size(217, 21);
             this.comboBoxRec.TabIndex = 8;
@@ -147,7 +83,7 @@
             // comboBoxPlay
             // 
             this.comboBoxPlay.FormattingEnabled = true;
-            this.comboBoxPlay.Location = new System.Drawing.Point(274, 127);
+            this.comboBoxPlay.Location = new System.Drawing.Point(274, 25);
             this.comboBoxPlay.Name = "comboBoxPlay";
             this.comboBoxPlay.Size = new System.Drawing.Size(217, 21);
             this.comboBoxPlay.TabIndex = 9;
@@ -198,7 +134,7 @@
             this.trackBar1.TabIndex = 13;
             this.trackBar1.TickFrequency = 100000;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             // 
             // label5
             // 
@@ -220,7 +156,7 @@
             this.trackBar2.TabIndex = 15;
             this.trackBar2.TickFrequency = 100000;
             this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
+            this.trackBar2.ValueChanged += new System.EventHandler(this.trackBar2_ValueChanged);
             // 
             // trackBar3
             // 
@@ -233,7 +169,7 @@
             this.trackBar3.TabIndex = 16;
             this.trackBar3.TickFrequency = 100000;
             this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
+            this.trackBar3.ValueChanged += new System.EventHandler(this.trackBar3_ValueChanged);
             // 
             // labelClipping
             // 
@@ -263,12 +199,6 @@
             this.Controls.Add(this.comboBoxRec);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.buttonStopPlay);
-            this.Controls.Add(this.buttonStartPlay);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.buttonStopRec);
-            this.Controls.Add(this.buttonStartRec);
-            this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
@@ -280,14 +210,7 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button buttonStartRec;
-        private System.Windows.Forms.Button buttonStopRec;
-        private System.Windows.Forms.Button buttonStopPlay;
-        private System.Windows.Forms.Button buttonStartPlay;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBoxRec;
