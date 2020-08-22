@@ -155,22 +155,6 @@ namespace extremeBassBoost
             }
         }
 
-        private void buttonStartRec_Click(object sender, EventArgs e)
-        {
-            int device = int.Parse(((string)comboBoxRec.SelectedItem).Split(':').First());
-            recorder.Start(device);
-        }
-
-        private void buttonStopRec_Click(object sender, EventArgs e)
-        {
-            recorder.Stop();
-        }
-
-        private void buttonStartPlay_Click(object sender, EventArgs e)
-        {
-            StartPlayer();
-        }
-
         private void StartPlayer()
         {
             if (InvokeRequired)
@@ -181,11 +165,6 @@ namespace extremeBassBoost
 
             int device = int.Parse(((string)comboBoxPlay.SelectedItem).Split(':').First());
             player.Start(device);
-        }
-
-        private void buttonStopPlay_Click(object sender, EventArgs e)
-        {
-            player.Stop();
         }
 
         private void buttonDSPStart_Click(object sender, EventArgs e)
