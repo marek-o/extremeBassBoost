@@ -7,7 +7,7 @@ namespace Utils
 {
     public class SoundWrapper
     {
-        private uint bufferLength;
+        private uint bufferLengthBytes;
         private uint sampleRate;
         private ushort bitsPerSample;
         private ushort channels;
@@ -27,13 +27,13 @@ namespace Utils
         private IntPtr[] bufferIP = new IntPtr[2];
         private bool finishing = false;
 
-        public SoundWrapper(Mode mode, ushort bitsPerSample, ushort channels, uint sampleRate, uint bufferLength)
+        public SoundWrapper(Mode mode, ushort bitsPerSample, ushort channels, uint sampleRate, uint bufferLengthBytes)
         {
             this.mode = mode;
             this.bitsPerSample = bitsPerSample;
             this.channels = channels;
             this.sampleRate = sampleRate;
-            this.bufferLength = bufferLength;
+            this.bufferLengthBytes = bufferLengthBytes;
         }
 
         public IEnumerable<string> EnumerateDevices()
@@ -102,12 +102,12 @@ namespace Utils
 
                     WAVEHDR* bufptr = (WAVEHDR*)bufferIP[i].ToPointer();
 
-                    bufptr->lpData = Marshal.AllocHGlobal((int)bufferLength);
-                    bufptr->dwBufferLength = bufferLength;
+                    bufptr->lpData = Marshal.AllocHGlobal((int)bufferLengthBytes);
+                    bufptr->dwBufferLength = bufferLengthBytes;
                     bufptr->dwFlags = 0;
 
-                    short[] data = new short[bufferLength / 2];
-                    Marshal.Copy(data, 0, bufptr->lpData, (int)(bufferLength / 2));
+                    short[] data = new short[bufferLengthBytes / 2];
+                    Marshal.Copy(data, 0, bufptr->lpData, (int)(bufferLengthBytes / 2));
 
                     if (mode == Mode.Record)
                     {
@@ -322,7 +322,7 @@ namespace Utils
             {
                 WAVEHDR* bufptr = (WAVEHDR*)dwParam1;
 
-                short[] data = new short[dwInstance.bufferLength / 2];
+                short[] data = new short[dwInstance.bufferLengthBytes / 2];
                 Marshal.Copy(bufptr->lpData, data, 0, (int)(bufptr->dwBytesRecorded / 2));
 
                 if (!dwInstance.finishing)
@@ -347,10 +347,10 @@ namespace Utils
             {
                 WAVEHDR* bufptr = (WAVEHDR*)dwParam1;
 
-                short[] data = new short[dwInstance.bufferLength / 2];
+                short[] data = new short[dwInstance.bufferLengthBytes / 2];
                 dwInstance.OnNewDataRequested(data);
 
-                Marshal.Copy(data, 0, bufptr->lpData, (int)(dwInstance.bufferLength / 2));
+                Marshal.Copy(data, 0, bufptr->lpData, (int)(dwInstance.bufferLengthBytes / 2));
 
                 if (!dwInstance.finishing)
                 {

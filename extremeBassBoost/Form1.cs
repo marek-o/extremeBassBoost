@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Utils;
 
@@ -16,13 +12,16 @@ namespace extremeBassBoost
         SoundWrapper recorder;
         SoundWrapper player;
 
+        private const int sampleRate = 48000;
+        private const int bufferLengthBytes = 8 * 1024;
+
         public Form1()
         {
             InitializeComponent();
-            recorder = new SoundWrapper(SoundWrapper.Mode.Record, 16, 2, 48000, 1024*8);
+            recorder = new SoundWrapper(SoundWrapper.Mode.Record, 16, 2, sampleRate, bufferLengthBytes);
             recorder.NewDataPresent += Recorder_NewDataPresent;
 
-            player = new SoundWrapper(SoundWrapper.Mode.Play, 16, 2, 48000, 1024*8);
+            player = new SoundWrapper(SoundWrapper.Mode.Play, 16, 2, sampleRate, bufferLengthBytes);
             player.NewDataRequested += Player_NewDataRequested;
 
             comboBoxRec.Items.AddRange(recorder.EnumerateDevices().ToArray());
@@ -74,19 +73,14 @@ namespace extremeBassBoost
                     short inputL = buf[i];
                     short inputR = buf[i + 1];
 
-                    //input = (short)(input / 10000 * 10000);
+                    bass1L = (short)(bass1L + filterFreq * (inputL - bass1L));
+                    bass2L = (short)(bass2L + filterFreq * (bass1L - bass2L));
 
-                    //input *= 2;
-                    //temp = (short)(temp + variable1 * (inputL - temp));
+                    bass1R = (short)(bass1R + filterFreq * (inputR - bass1R));
+                    bass2R = (short)(bass2R + filterFreq * (bass1R - bass2R));
 
-                    bass1L = (short)(bass1L + variable1 * (inputL - bass1L));
-                    bass2L = (short)(bass2L + variable1 * (bass1L - bass2L));
-
-                    bass1R = (short)(bass1R + variable1 * (inputR - bass1R));
-                    bass2R = (short)(bass2R + variable1 * (bass1R - bass2R));
-
-                    short outputL = Limit(variable3 * (variable2 * bass2L + inputL));
-                    short outputR = Limit(variable3 * (variable2 * bass2R + inputR));
+                    short outputL = Limit(volume * (bassBoost * bass2L + inputL));
+                    short outputR = Limit(volume * (bassBoost * bass2R + inputR));
 
                     e.data[i] = outputL;
                     e.data[i + 1] = outputR;
@@ -128,13 +122,12 @@ namespace extremeBassBoost
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            labelQueue.Text = "Bytes in queue: " + queue.Count * 1024 * 8; //FIXME
+            labelQueue.Text = "Bytes in queue: " + queue.Count * bufferLengthBytes;
 
             if (clipping)
             {
                 clipping = false;
                 labelClipping.Visible = true;
-                //trackBar2.Value = (int)(trackBar2.Value * 0.9);
             }
             else
             {
@@ -196,26 +189,26 @@ namespace extremeBassBoost
             }
         }
 
-        private float variable1 = 0.0f;
-        private float variable2 = 0.0f;
-        private float variable3 = 0.0f;
+        private float filterFreq = 0.0f;
+        private float bassBoost = 0.0f;
+        private float volume = 0.0f;
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-            variable1 = trackBar1.Value * 0.1f / (float)trackBar1.Maximum;
-            labelFilterFreq.Text = string.Format("{0:F0} Hz", variable1 * 48000);
+            filterFreq = trackBar1.Value * 0.1f / (float)trackBar1.Maximum;
+            labelFilterFreq.Text = string.Format("{0:F0} Hz", filterFreq * 48000);
         }
 
         private void trackBar2_ValueChanged(object sender, EventArgs e)
         {
-            variable2 = trackBar2.Value * 100 / (float)trackBar2.Maximum;
-            labelBassBoost.Text = string.Format("x {0:F1}", variable2);
+            bassBoost = trackBar2.Value * 100 / (float)trackBar2.Maximum;
+            labelBassBoost.Text = string.Format("x {0:F1}", bassBoost);
         }
 
         private void trackBar3_ValueChanged(object sender, EventArgs e)
         {
-            variable3 = trackBar3.Value / (float)trackBar3.Maximum;
-            labelVolume.Text = string.Format("{0:P2}", variable3);
+            volume = trackBar3.Value / (float)trackBar3.Maximum;
+            labelVolume.Text = string.Format("{0:P2}", volume);
         }
     }
 }
