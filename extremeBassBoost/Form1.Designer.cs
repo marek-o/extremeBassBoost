@@ -49,6 +49,7 @@
             this.labelVolume = new System.Windows.Forms.Label();
             this.labelBassBoost = new System.Windows.Forms.Label();
             this.labelFilterFreq = new System.Windows.Forms.Label();
+            this.labelUnderrun = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
@@ -183,10 +184,11 @@
             // 
             this.labelClipping.AutoSize = true;
             this.labelClipping.BackColor = System.Drawing.Color.Red;
+            this.labelClipping.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelClipping.ForeColor = System.Drawing.Color.White;
             this.labelClipping.Location = new System.Drawing.Point(122, 218);
             this.labelClipping.Name = "labelClipping";
-            this.labelClipping.Size = new System.Drawing.Size(56, 13);
+            this.labelClipping.Size = new System.Drawing.Size(58, 15);
             this.labelClipping.TabIndex = 17;
             this.labelClipping.Text = "CLIPPING";
             // 
@@ -243,11 +245,24 @@
             this.labelFilterFreq.TabIndex = 23;
             this.labelFilterFreq.Text = "0 Hz";
             // 
+            // labelUnderrun
+            // 
+            this.labelUnderrun.AutoSize = true;
+            this.labelUnderrun.BackColor = System.Drawing.Color.Yellow;
+            this.labelUnderrun.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelUnderrun.ForeColor = System.Drawing.Color.Black;
+            this.labelUnderrun.Location = new System.Drawing.Point(186, 218);
+            this.labelUnderrun.Name = "labelUnderrun";
+            this.labelUnderrun.Size = new System.Drawing.Size(117, 15);
+            this.labelUnderrun.TabIndex = 24;
+            this.labelUnderrun.Text = "BUFFER UNDERRUN";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(646, 402);
+            this.Controls.Add(this.labelUnderrun);
             this.Controls.Add(this.labelFilterFreq);
             this.Controls.Add(this.labelBassBoost);
             this.Controls.Add(this.labelVolume);
@@ -297,6 +312,7 @@
         private System.Windows.Forms.Label labelVolume;
         private System.Windows.Forms.Label labelBassBoost;
         private System.Windows.Forms.Label labelFilterFreq;
+        private System.Windows.Forms.Label labelUnderrun;
     }
 }
 

@@ -41,6 +41,7 @@ namespace extremeBassBoost
         private short bass1R, bass2R;
 
         private bool clipping = false;
+        private bool underrun = false;
 
         private short Limit(float value)
         {
@@ -65,9 +66,7 @@ namespace extremeBassBoost
             if (queue.Count > 0)
             {
                 var buf = queue.Dequeue();
-                Array.Copy(buf, e.data, buf.Length); //assume equal sizes
 
-                //DSP
                 for (int i = 0; i < buf.Length && i < e.data.Length; i += 2)
                 {
                     short inputL = buf[i];
@@ -85,33 +84,10 @@ namespace extremeBassBoost
                     e.data[i] = outputL;
                     e.data[i + 1] = outputR;
                 }
-
-
-
             }
             else
             {
-                e.data[0] = 30000;
-                //for (int i = 0; i < e.data.Length; ++i)
-                //{
-                //    int current = samplesPlayed + i;
-
-                //    float freq = 1000.0f;
-
-                //    //stereo
-                //    if ((current % (int)(48000 * 2 / freq)) - (48000 * 2 / freq / 2) < 0)
-                //    {
-                //        if (current % 2 == 0)
-                //            e.data[i] = 30000;
-                //        else
-                //            e.data[i] = 30000;
-
-                //    }
-                //    else
-                //    {
-                //        e.data[i] = -30000;
-                //    }
-                //}
+                underrun = true;
             }
         }
 
@@ -124,15 +100,11 @@ namespace extremeBassBoost
         {
             labelQueue.Text = "Bytes in queue: " + queue.Count * bufferLengthBytes;
 
-            if (clipping)
-            {
-                clipping = false;
-                labelClipping.Visible = true;
-            }
-            else
-            {
-                labelClipping.Visible = false;
-            }
+            labelClipping.Visible = clipping;
+            labelUnderrun.Visible = underrun;
+
+            clipping = false;
+            underrun = false;
 
             if (queue.Any())
             {
