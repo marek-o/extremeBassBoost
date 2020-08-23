@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Utils;
 
@@ -14,6 +13,7 @@ namespace extremeBassBoost
 
         private const int sampleRate = 48000;
         private const int bufferLengthBytes = 8 * 1024;
+        private const int initialQueueSize = 2;
 
         public Form1()
         {
@@ -98,26 +98,14 @@ namespace extremeBassBoost
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            labelQueue.Text = "Bytes in queue: " + queue.Count * bufferLengthBytes;
+            bool overrun = queue.Count > initialQueueSize * 2;
 
             labelClipping.Visible = clipping;
             labelUnderrun.Visible = underrun;
+            labelOverrun.Visible = overrun;
 
             clipping = false;
             underrun = false;
-
-            if (queue.Any())
-            {
-                StringBuilder sb = new StringBuilder();
-                var buf = queue.Peek();
-
-                for (int i = 0; i < 10; ++i)
-                {
-                    sb.AppendLine(buf[i].ToString());
-                }
-
-                label5.Text = sb.ToString();
-            }
         }
 
         private void StartPlayer()
@@ -154,7 +142,7 @@ namespace extremeBassBoost
 
         private void timerStartup_Tick(object sender, EventArgs e)
         {
-            if (queue.Count >= 4)
+            if (queue.Count >= initialQueueSize)
             {
                 StartPlayer();
                 timerStartup.Stop();
