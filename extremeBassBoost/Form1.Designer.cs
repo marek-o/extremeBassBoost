@@ -98,6 +98,7 @@
             // 
             // buttonDSPStop
             // 
+            this.buttonDSPStop.Enabled = false;
             this.buttonDSPStop.Location = new System.Drawing.Point(96, 66);
             this.buttonDSPStop.Name = "buttonDSPStop";
             this.buttonDSPStop.Size = new System.Drawing.Size(75, 23);

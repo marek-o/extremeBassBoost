@@ -129,6 +129,8 @@ namespace extremeBassBoost
 
             comboBoxPlay.Enabled = false;
             comboBoxRec.Enabled = false;
+            buttonDSPStart.Enabled = false;
+            buttonDSPStop.Enabled = true;
         }
 
         private void buttonDSPStop_Click(object sender, EventArgs e)
@@ -139,6 +141,8 @@ namespace extremeBassBoost
 
             comboBoxPlay.Enabled = true;
             comboBoxRec.Enabled = true;
+            buttonDSPStart.Enabled = true;
+            buttonDSPStop.Enabled = false;
         }
 
         private void timerStartup_Tick(object sender, EventArgs e)
