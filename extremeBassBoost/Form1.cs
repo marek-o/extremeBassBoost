@@ -78,15 +78,15 @@ namespace extremeBassBoost
 
                     //input *= 2;
                     //temp = (short)(temp + variable1 * (inputL - temp));
-                    const float scale = 0.1f;
-                    bass1L = (short)(bass1L + scale * variable1 * (inputL - bass1L));
-                    bass2L = (short)(bass2L + scale * variable1 * (bass1L - bass2L));
 
-                    bass1R = (short)(bass1R + scale * variable1 * (inputR - bass1R));
-                    bass2R = (short)(bass2R + scale * variable1 * (bass1R - bass2R));
+                    bass1L = (short)(bass1L + variable1 * (inputL - bass1L));
+                    bass2L = (short)(bass2L + variable1 * (bass1L - bass2L));
 
-                    short outputL = Limit(variable3 * (100 * variable2 * bass2L + inputL));
-                    short outputR = Limit(variable3 * (100 * variable2 * bass2R + inputR));
+                    bass1R = (short)(bass1R + variable1 * (inputR - bass1R));
+                    bass2R = (short)(bass2R + variable1 * (bass1R - bass2R));
+
+                    short outputL = Limit(variable3 * (variable2 * bass2L + inputL));
+                    short outputR = Limit(variable3 * (variable2 * bass2R + inputR));
 
                     e.data[i] = outputL;
                     e.data[i + 1] = outputR;
@@ -172,6 +172,9 @@ namespace extremeBassBoost
             int device = int.Parse(((string)comboBoxRec.SelectedItem).Split(':').First());
             timerStartup.Start();
             recorder.Start(device);
+
+            comboBoxPlay.Enabled = false;
+            comboBoxRec.Enabled = false;
         }
 
         private void buttonDSPStop_Click(object sender, EventArgs e)
@@ -179,6 +182,9 @@ namespace extremeBassBoost
             recorder.Stop();
             player.Stop();
             queue.Clear();
+
+            comboBoxPlay.Enabled = true;
+            comboBoxRec.Enabled = true;
         }
 
         private void timerStartup_Tick(object sender, EventArgs e)
@@ -196,18 +202,20 @@ namespace extremeBassBoost
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-            variable1 = trackBar1.Value / (float)trackBar1.Maximum;
+            variable1 = trackBar1.Value * 0.1f / (float)trackBar1.Maximum;
+            labelFilterFreq.Text = string.Format("{0:F0} Hz", variable1 * 48000);
         }
 
         private void trackBar2_ValueChanged(object sender, EventArgs e)
         {
-            variable2 = trackBar2.Value / (float)trackBar2.Maximum;
+            variable2 = trackBar2.Value * 100 / (float)trackBar2.Maximum;
+            labelBassBoost.Text = string.Format("x {0:F1}", variable2);
         }
 
         private void trackBar3_ValueChanged(object sender, EventArgs e)
         {
             variable3 = trackBar3.Value / (float)trackBar3.Maximum;
-
+            labelVolume.Text = string.Format("{0:P2}", variable3);
         }
     }
 }

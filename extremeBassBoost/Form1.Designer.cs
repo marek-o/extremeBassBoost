@@ -43,6 +43,12 @@
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.trackBar3 = new System.Windows.Forms.TrackBar();
             this.labelClipping = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.labelVolume = new System.Windows.Forms.Label();
+            this.labelBassBoost = new System.Windows.Forms.Label();
+            this.labelFilterFreq = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
@@ -74,6 +80,7 @@
             // 
             // comboBoxRec
             // 
+            this.comboBoxRec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRec.FormattingEnabled = true;
             this.comboBoxRec.Location = new System.Drawing.Point(25, 25);
             this.comboBoxRec.Name = "comboBoxRec";
@@ -82,6 +89,7 @@
             // 
             // comboBoxPlay
             // 
+            this.comboBoxPlay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPlay.FormattingEnabled = true;
             this.comboBoxPlay.Location = new System.Drawing.Point(274, 25);
             this.comboBoxPlay.Name = "comboBoxPlay";
@@ -126,7 +134,7 @@
             // trackBar1
             // 
             this.trackBar1.LargeChange = 10000;
-            this.trackBar1.Location = new System.Drawing.Point(25, 271);
+            this.trackBar1.Location = new System.Drawing.Point(172, 277);
             this.trackBar1.Maximum = 1000000;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(466, 45);
@@ -139,7 +147,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(575, 43);
+            this.label5.Location = new System.Drawing.Point(271, 82);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 39);
             this.label5.TabIndex = 14;
@@ -148,7 +156,7 @@
             // trackBar2
             // 
             this.trackBar2.LargeChange = 10000;
-            this.trackBar2.Location = new System.Drawing.Point(25, 309);
+            this.trackBar2.Location = new System.Drawing.Point(172, 315);
             this.trackBar2.Maximum = 1000000;
             this.trackBar2.Name = "trackBar2";
             this.trackBar2.Size = new System.Drawing.Size(466, 45);
@@ -161,7 +169,7 @@
             // trackBar3
             // 
             this.trackBar3.LargeChange = 10000;
-            this.trackBar3.Location = new System.Drawing.Point(25, 348);
+            this.trackBar3.Location = new System.Drawing.Point(172, 354);
             this.trackBar3.Maximum = 1000000;
             this.trackBar3.Name = "trackBar3";
             this.trackBar3.Size = new System.Drawing.Size(466, 45);
@@ -182,11 +190,70 @@
             this.labelClipping.TabIndex = 17;
             this.labelClipping.Text = "CLIPPING";
             // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(16, 277);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(103, 38);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Filter frequency (roughly)";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 315);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "Bass boost";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(16, 354);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(76, 13);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Master volume";
+            // 
+            // labelVolume
+            // 
+            this.labelVolume.AutoSize = true;
+            this.labelVolume.Location = new System.Drawing.Point(137, 354);
+            this.labelVolume.Name = "labelVolume";
+            this.labelVolume.Size = new System.Drawing.Size(21, 13);
+            this.labelVolume.TabIndex = 21;
+            this.labelVolume.Text = "0%";
+            // 
+            // labelBassBoost
+            // 
+            this.labelBassBoost.AutoSize = true;
+            this.labelBassBoost.Location = new System.Drawing.Point(137, 315);
+            this.labelBassBoost.Name = "labelBassBoost";
+            this.labelBassBoost.Size = new System.Drawing.Size(21, 13);
+            this.labelBassBoost.TabIndex = 22;
+            this.labelBassBoost.Text = "x 0";
+            // 
+            // labelFilterFreq
+            // 
+            this.labelFilterFreq.AutoSize = true;
+            this.labelFilterFreq.Location = new System.Drawing.Point(137, 277);
+            this.labelFilterFreq.Name = "labelFilterFreq";
+            this.labelFilterFreq.Size = new System.Drawing.Size(29, 13);
+            this.labelFilterFreq.TabIndex = 23;
+            this.labelFilterFreq.Text = "0 Hz";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(646, 402);
+            this.Controls.Add(this.labelFilterFreq);
+            this.Controls.Add(this.labelBassBoost);
+            this.Controls.Add(this.labelVolume);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.labelClipping);
             this.Controls.Add(this.trackBar3);
             this.Controls.Add(this.trackBar2);
@@ -224,6 +291,12 @@
         private System.Windows.Forms.TrackBar trackBar2;
         private System.Windows.Forms.TrackBar trackBar3;
         private System.Windows.Forms.Label labelClipping;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label labelVolume;
+        private System.Windows.Forms.Label labelBassBoost;
+        private System.Windows.Forms.Label labelFilterFreq;
     }
 }
 
