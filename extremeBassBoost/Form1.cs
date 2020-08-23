@@ -117,13 +117,13 @@ namespace extremeBassBoost
                 return;
             }
 
-            int device = int.Parse(((string)comboBoxPlay.SelectedItem).Split(':').First());
+            int device = ((SoundWrapper.DeviceInfo)comboBoxPlay.SelectedItem).index;
             player.Start(device);
         }
 
         private void buttonDSPStart_Click(object sender, EventArgs e)
         {
-            int device = int.Parse(((string)comboBoxRec.SelectedItem).Split(':').First());
+            int device = ((SoundWrapper.DeviceInfo)comboBoxRec.SelectedItem).index;
             timerStartup.Start();
             recorder.Start(device);
 

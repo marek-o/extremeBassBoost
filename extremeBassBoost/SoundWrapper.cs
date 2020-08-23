@@ -23,6 +23,17 @@ namespace Utils
             NotSet, Play, Record
         }
 
+        public class DeviceInfo
+        {
+            public int index;
+            public string name;
+
+            public override string ToString()
+            {
+                return string.Format("{0}: {1}", index, name);
+            }
+        }
+        
         private Mode mode;
         private IntPtr[] bufferIP = new IntPtr[2];
         private bool finishing = false;
@@ -36,7 +47,7 @@ namespace Utils
             this.bufferLengthBytes = bufferLengthBytes;
         }
 
-        public IEnumerable<string> EnumerateDevices()
+        public IEnumerable<DeviceInfo> EnumerateDevices()
         {
             if (mode == Mode.Record)
             {
@@ -47,7 +58,7 @@ namespace Utils
                     WAVEINCAPS caps = new WAVEINCAPS();
                     if (waveInGetDevCaps(i, ref caps, 48) == 0)
                     {
-                        yield return string.Format("{0}: {1}", i, caps.szPname);
+                        yield return new DeviceInfo() { index = (int)i, name = caps.szPname };
                     }
                 }
             }
@@ -60,7 +71,7 @@ namespace Utils
                     WAVEOUTCAPS caps = new WAVEOUTCAPS();
                     if (waveOutGetDevCaps(i, ref caps, 48) == 0)
                     {
-                        yield return string.Format("{0}: {1}", i, caps.szPname);
+                        yield return new DeviceInfo() { index = (int)i, name = caps.szPname };
                     }
                 }
             }
