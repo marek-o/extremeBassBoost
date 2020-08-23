@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Utils;
@@ -100,9 +101,9 @@ namespace extremeBassBoost
         {
             bool overrun = queue.Count > initialQueueSize * 2;
 
-            labelClipping.Visible = clipping;
-            labelUnderrun.Visible = underrun;
-            labelOverrun.Visible = overrun;
+            labelClipping.BackColor = clipping ? Color.Red : Color.DarkGray;
+            labelUnderrun.BackColor = underrun ? Color.Red : Color.DarkGray;
+            labelOverrun.BackColor = overrun ? Color.Red : Color.DarkGray;
 
             clipping = false;
             underrun = false;
