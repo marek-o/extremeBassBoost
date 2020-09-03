@@ -7,7 +7,7 @@ using Utils;
 
 namespace extremeBassBoost
 {
-    public partial class Form1 : Form
+    public partial class ExtremeBassBoost : Form
     {
         SoundWrapper recorder;
         SoundWrapper player;
@@ -16,7 +16,7 @@ namespace extremeBassBoost
         private const int bufferLengthBytes = 8 * 1024;
         private const int initialQueueSize = 2;
 
-        public Form1()
+        public ExtremeBassBoost()
         {
             InitializeComponent();
             recorder = new SoundWrapper(SoundWrapper.Mode.Record, 16, 2, sampleRate, bufferLengthBytes);

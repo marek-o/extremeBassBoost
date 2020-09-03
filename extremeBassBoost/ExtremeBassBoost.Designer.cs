@@ -1,6 +1,6 @@
 ﻿namespace extremeBassBoost
 {
-    partial class Form1
+    partial class ExtremeBassBoost
     {
         /// <summary>
         /// Required designer variable.
