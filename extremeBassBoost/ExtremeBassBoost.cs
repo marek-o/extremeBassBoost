@@ -82,11 +82,14 @@ namespace extremeBassBoost
                     bass1R = (short)(bass1R + filterFreq * (inputR - bass1R));
                     bass2R = (short)(bass2R + filterFreq * (bass1R - bass2R));
 
-                    short outputL = Limit(volume * (bassBoost * bass2L + inputL));
-                    short outputR = Limit(volume * (bassBoost * bass2R + inputR));
+                    short outputL = Limit(volumeSmoothed * (bassBoostSmoothed * bass2L + inputL));
+                    short outputR = Limit(volumeSmoothed * (bassBoostSmoothed * bass2R + inputR));
 
                     e.data[i] = outputL;
                     e.data[i + 1] = outputR;
+
+                    volumeSmoothed = volumeSmoothed + 0.01f * (volume - volumeSmoothed);
+                    bassBoostSmoothed = bassBoostSmoothed + 0.01f * (bassBoost - bassBoostSmoothed);
                 }
             }
             else
@@ -162,6 +165,9 @@ namespace extremeBassBoost
                 timerStartup.Stop();
             }
         }
+
+        private float bassBoostSmoothed = 0.0f;
+        private float volumeSmoothed = 0.0f;
 
         private float filterFreq = 0.0f;
         private float bassBoost = 0.0f;
