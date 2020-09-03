@@ -119,7 +119,7 @@
             // 
             // timerStartup
             // 
-            this.timerStartup.Enabled = true;
+            this.timerStartup.Enabled = false;
             this.timerStartup.Interval = 10;
             this.timerStartup.Tick += new System.EventHandler(this.timerStartup_Tick);
             // 

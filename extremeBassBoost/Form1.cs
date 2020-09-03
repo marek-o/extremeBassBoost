@@ -44,6 +44,9 @@ namespace extremeBassBoost
         private bool clipping = false;
         private bool underrun = false;
 
+        private bool wasUnderrun = false;
+        private bool wasOverrun = false;
+
         private short Limit(float value)
         {
             if (value > short.MaxValue)
@@ -102,8 +105,11 @@ namespace extremeBassBoost
             bool overrun = queue.Count > initialQueueSize * 2;
 
             labelClipping.BackColor = clipping ? Color.Red : Color.DarkGray;
-            labelUnderrun.BackColor = underrun ? Color.Red : Color.DarkGray;
-            labelOverrun.BackColor = overrun ? Color.Red : Color.DarkGray;
+            labelUnderrun.BackColor = underrun ? Color.Red : wasUnderrun ? Color.Maroon : Color.DarkGray;
+            labelOverrun.BackColor = overrun ? Color.Red : wasOverrun ? Color.Maroon : Color.DarkGray;
+
+            wasUnderrun |= underrun;
+            wasOverrun |= overrun;
 
             clipping = false;
             underrun = false;
@@ -143,6 +149,9 @@ namespace extremeBassBoost
             comboBoxRec.Enabled = true;
             buttonDSPStart.Enabled = true;
             buttonDSPStop.Enabled = false;
+
+            wasUnderrun = false;
+            wasOverrun = false;
         }
 
         private void timerStartup_Tick(object sender, EventArgs e)
