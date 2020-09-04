@@ -119,7 +119,6 @@
             // 
             // timerStartup
             // 
-            this.timerStartup.Enabled = false;
             this.timerStartup.Interval = 10;
             this.timerStartup.Tick += new System.EventHandler(this.timerStartup_Tick);
             // 
@@ -135,6 +134,7 @@
             this.trackBar1.TickFrequency = 100000;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.trackBar1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.HandleMouseWheel);
             // 
             // trackBar2
             // 
@@ -148,6 +148,7 @@
             this.trackBar2.TickFrequency = 100000;
             this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar2.ValueChanged += new System.EventHandler(this.trackBar2_ValueChanged);
+            this.trackBar2.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.HandleMouseWheel);
             // 
             // trackBar3
             // 
@@ -161,6 +162,7 @@
             this.trackBar3.TickFrequency = 100000;
             this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar3.ValueChanged += new System.EventHandler(this.trackBar3_ValueChanged);
+            this.trackBar3.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.HandleMouseWheel);
             // 
             // labelClipping
             // 
@@ -251,7 +253,7 @@
             this.labelOverrun.TabIndex = 25;
             this.labelOverrun.Text = "BUFFER OVERRUN";
             // 
-            // Form1
+            // ExtremeBassBoost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -276,7 +278,7 @@
             this.Controls.Add(this.label3);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "ExtremeBassBoost";
             this.ShowIcon = false;
             this.Text = "Extreme Bass Boost";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();

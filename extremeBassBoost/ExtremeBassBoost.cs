@@ -190,5 +190,14 @@ namespace extremeBassBoost
             volume = trackBar3.Value / (float)trackBar3.Maximum;
             labelVolume.Text = string.Format("{0:P2}", volume);
         }
+
+        private void HandleMouseWheel(object sender, MouseEventArgs e)
+        {
+            if (sender is TrackBar t)
+            {
+                int delta = e.Delta * t.Maximum / SystemInformation.MouseWheelScrollDelta / 100;
+                t.Value = Math.Max(t.Minimum, Math.Min(t.Maximum, t.Value + delta));
+            }
+        }
     }
 }
