@@ -37,6 +37,7 @@ namespace Utils
         private Mode mode;
         private IntPtr[] bufferIP = new IntPtr[2];
         private bool finishing = false;
+        private object locker = new object();
 
         public SoundWrapper(Mode mode, ushort bitsPerSample, ushort channels, uint sampleRate, uint bufferLengthBytes)
         {
@@ -148,13 +149,16 @@ namespace Utils
 
             finishing = true;
 
-            if (mode == Mode.Record)
+            lock (locker)
             {
-                CheckError(waveInReset(waveHandle));
-            }
-            else
-            {
-                CheckError(waveOutReset(waveHandle));
+                if (mode == Mode.Record)
+                {
+                    CheckError(waveInReset(waveHandle));
+                }
+                else
+                {
+                    CheckError(waveOutReset(waveHandle));
+                }
             }
 
             for (int i = 0; i < 2; ++i)
@@ -338,9 +342,14 @@ namespace Utils
 
                 if (!dwInstance.finishing)
                 {
-                    uint retval = waveInUnprepareHeader(dwInstance.waveHandle, ref *bufptr, 32);
-                    uint retval2 = waveInPrepareHeader(dwInstance.waveHandle, ref *bufptr, 32);
-                    uint retval3 = waveInAddBuffer(dwInstance.waveHandle, ref *bufptr, 32);
+                    uint retval, retval2, retval3;
+
+                    lock (dwInstance.locker)
+                    {
+                        retval = waveInUnprepareHeader(dwInstance.waveHandle, ref *bufptr, 32);
+                        retval2 = waveInPrepareHeader(dwInstance.waveHandle, ref *bufptr, 32);
+                        retval3 = waveInAddBuffer(dwInstance.waveHandle, ref *bufptr, 32);
+                    }
 
                     if (retval != 0 || retval2 != 0 || retval3 != 0)
                     {
@@ -365,9 +374,14 @@ namespace Utils
 
                 if (!dwInstance.finishing)
                 {
-                    uint retval = waveOutUnprepareHeader(dwInstance.waveHandle, ref *bufptr, 32);
-                    uint retval2 = waveOutPrepareHeader(dwInstance.waveHandle, ref *bufptr, 32);
-                    uint retval3 = waveOutWrite(dwInstance.waveHandle, ref *bufptr, 32);
+                    uint retval, retval2, retval3;
+
+                    lock (dwInstance.locker)
+                    {
+                        retval = waveOutUnprepareHeader(dwInstance.waveHandle, ref *bufptr, 32);
+                        retval2 = waveOutPrepareHeader(dwInstance.waveHandle, ref *bufptr, 32);
+                        retval3 = waveOutWrite(dwInstance.waveHandle, ref *bufptr, 32);
+                    }
 
                     if (retval != 0 || retval2 != 0 || retval3 != 0)
                     {
