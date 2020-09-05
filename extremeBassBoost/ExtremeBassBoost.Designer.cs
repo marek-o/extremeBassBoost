@@ -49,6 +49,7 @@
             this.labelFilterFreq = new System.Windows.Forms.Label();
             this.labelUnderrun = new System.Windows.Forms.Label();
             this.labelOverrun = new System.Windows.Forms.Label();
+            this.labelDebug = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
@@ -253,11 +254,22 @@
             this.labelOverrun.TabIndex = 25;
             this.labelOverrun.Text = "BUFFER OVERRUN";
             // 
+            // labelDebug
+            // 
+            this.labelDebug.AutoSize = true;
+            this.labelDebug.Location = new System.Drawing.Point(314, 15);
+            this.labelDebug.Name = "labelDebug";
+            this.labelDebug.Size = new System.Drawing.Size(37, 13);
+            this.labelDebug.TabIndex = 26;
+            this.labelDebug.Text = "debug";
+            this.labelDebug.Visible = false;
+            // 
             // ExtremeBassBoost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(646, 220);
+            this.Controls.Add(this.labelDebug);
             this.Controls.Add(this.labelOverrun);
             this.Controls.Add(this.labelUnderrun);
             this.Controls.Add(this.labelFilterFreq);
@@ -310,6 +322,7 @@
         private System.Windows.Forms.Label labelFilterFreq;
         private System.Windows.Forms.Label labelUnderrun;
         private System.Windows.Forms.Label labelOverrun;
+        private System.Windows.Forms.Label labelDebug;
     }
 }
 

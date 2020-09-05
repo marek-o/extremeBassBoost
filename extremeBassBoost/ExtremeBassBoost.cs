@@ -116,6 +116,11 @@ namespace extremeBassBoost
 
             clipping = false;
             underrun = false;
+
+#if DEBUG
+            labelDebug.Visible = true;
+            labelDebug.Text = string.Format("queue size: {0}", queue.Count);
+#endif
         }
 
         private void StartPlayer()
