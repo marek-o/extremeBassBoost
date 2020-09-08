@@ -31,9 +31,9 @@ namespace extremeBassBoost
             comboBoxPlay.Items.AddRange(player.EnumerateDevices().ToArray());
             comboBoxPlay.SelectedIndex = 0;
 
-            trackBar1.Value = 200000;
-            trackBar2.Value = 200000;
-            trackBar3.Value = 100000;
+            trackBar1.Value = 100000;
+            trackBar2.Value = 500000;
+            trackBar3.Value = 500000;
         }
 
         Queue<short[]> queue = new Queue<short[]>();
@@ -218,8 +218,11 @@ namespace extremeBassBoost
 
         private void trackBar2_ValueChanged(object sender, EventArgs e)
         {
-            bassBoost = trackBar2.Value * 100 / (float)trackBar2.Maximum;
-            labelBassBoost.Text = string.Format("x {0:F1}", bassBoost);
+            float bassVolumeSlider = trackBar2.Value / (float)trackBar2.Maximum;
+            float bassVolumedB = 20.0f * bassVolumeSlider;
+            float bassVolume = (float)Math.Pow(10, bassVolumedB / 10);
+            bassBoost = bassVolume - 1;
+            labelBassBoost.Text = string.Format("+{0:F1} dB", bassVolumedB);
         }
 
         private void trackBar3_ValueChanged(object sender, EventArgs e)
@@ -229,8 +232,10 @@ namespace extremeBassBoost
 
         private void UpdateVolume()
         {
-            volume = trackBar3.Value / (float)trackBar3.Maximum;
-            labelVolume.Text = string.Format("{0:P2}", volume);
+            float volumeSlider = trackBar3.Value / (float)trackBar3.Maximum;
+            float volumedB = 50.0f * (volumeSlider - 1);
+            volume = (float)Math.Pow(10, volumedB / 10);
+            labelVolume.Text = string.Format("{0:F1} dB", volumedB);
         }
 
         private void HandleMouseWheel(object sender, MouseEventArgs e)

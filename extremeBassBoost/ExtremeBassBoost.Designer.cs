@@ -190,9 +190,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 133);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.Size = new System.Drawing.Size(67, 13);
             this.label2.TabIndex = 19;
-            this.label2.Text = "Bass boost";
+            this.label2.Text = "Bass volume";
             // 
             // label6
             // 
@@ -206,7 +206,7 @@
             // labelVolume
             // 
             this.labelVolume.AutoSize = true;
-            this.labelVolume.Location = new System.Drawing.Point(133, 172);
+            this.labelVolume.Location = new System.Drawing.Point(126, 172);
             this.labelVolume.Name = "labelVolume";
             this.labelVolume.Size = new System.Drawing.Size(21, 13);
             this.labelVolume.TabIndex = 21;
@@ -215,7 +215,7 @@
             // labelBassBoost
             // 
             this.labelBassBoost.AutoSize = true;
-            this.labelBassBoost.Location = new System.Drawing.Point(133, 133);
+            this.labelBassBoost.Location = new System.Drawing.Point(126, 133);
             this.labelBassBoost.Name = "labelBassBoost";
             this.labelBassBoost.Size = new System.Drawing.Size(21, 13);
             this.labelBassBoost.TabIndex = 22;
@@ -224,7 +224,7 @@
             // labelFilterFreq
             // 
             this.labelFilterFreq.AutoSize = true;
-            this.labelFilterFreq.Location = new System.Drawing.Point(133, 95);
+            this.labelFilterFreq.Location = new System.Drawing.Point(126, 95);
             this.labelFilterFreq.Name = "labelFilterFreq";
             this.labelFilterFreq.Size = new System.Drawing.Size(29, 13);
             this.labelFilterFreq.TabIndex = 23;
