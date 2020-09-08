@@ -44,6 +44,9 @@ namespace extremeBassBoost
         private bool clipping = false;
         private bool underrun = false;
 
+        private bool isPlaying = false;
+        private bool isStopping = false;
+
         private bool wasUnderrun = false;
         private bool wasOverrun = false;
 
@@ -94,7 +97,14 @@ namespace extremeBassBoost
             }
             else
             {
-                underrun = true;
+                if (isStopping)
+                {
+                    StopPlayer();
+                }
+                else if (isPlaying)
+                {
+                    underrun = true;
+                }
             }
         }
 
@@ -132,7 +142,33 @@ namespace extremeBassBoost
             }
 
             int device = ((SoundWrapper.DeviceInfo)comboBoxPlay.SelectedItem).index;
+            isPlaying = true;
             player.Start(device);
+
+            buttonDSPStop.Enabled = true;
+        }
+
+        private void StopPlayer()
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() => StopPlayer()));
+                return;
+            }
+
+            player.Stop();
+            isStopping = false;
+            isPlaying = false;
+            queue.Clear();
+
+            UpdateVolume(); //restore previous volume
+
+            comboBoxPlay.Enabled = true;
+            comboBoxRec.Enabled = true;
+            buttonDSPStart.Enabled = true;
+
+            wasUnderrun = false;
+            wasOverrun = false;
         }
 
         private void buttonDSPStart_Click(object sender, EventArgs e)
@@ -144,22 +180,18 @@ namespace extremeBassBoost
             comboBoxPlay.Enabled = false;
             comboBoxRec.Enabled = false;
             buttonDSPStart.Enabled = false;
-            buttonDSPStop.Enabled = true;
+
+            volumeSmoothed = 0.0f; //smooth start
         }
 
         private void buttonDSPStop_Click(object sender, EventArgs e)
         {
+            volume = 0.0f; //smooth stop
+
+            isStopping = true;
             recorder.Stop();
-            player.Stop();
-            queue.Clear();
 
-            comboBoxPlay.Enabled = true;
-            comboBoxRec.Enabled = true;
-            buttonDSPStart.Enabled = true;
             buttonDSPStop.Enabled = false;
-
-            wasUnderrun = false;
-            wasOverrun = false;
         }
 
         private void timerStartup_Tick(object sender, EventArgs e)
@@ -192,6 +224,11 @@ namespace extremeBassBoost
 
         private void trackBar3_ValueChanged(object sender, EventArgs e)
         {
+            UpdateVolume();
+        }
+
+        private void UpdateVolume()
+        {
             volume = trackBar3.Value / (float)trackBar3.Maximum;
             labelVolume.Text = string.Format("{0:P2}", volume);
         }
@@ -203,6 +240,11 @@ namespace extremeBassBoost
                 int delta = e.Delta * t.Maximum / SystemInformation.MouseWheelScrollDelta / 100;
                 t.Value = Math.Max(t.Minimum, Math.Min(t.Maximum, t.Value + delta));
             }
+        }
+
+        private void ExtremeBassBoost_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            buttonDSPStop.PerformClick();
         }
     }
 }

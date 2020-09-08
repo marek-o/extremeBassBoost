@@ -293,6 +293,7 @@
             this.Name = "ExtremeBassBoost";
             this.ShowIcon = false;
             this.Text = "Extreme Bass Boost";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExtremeBassBoost_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
