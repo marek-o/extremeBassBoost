@@ -37,6 +37,7 @@ namespace Utils
         
         private Mode mode;
         private IntPtr[] bufferIP = new IntPtr[2];
+        private int warmup = 0;
         private bool finishing = false;
         private object locker = new object();
 
@@ -109,6 +110,8 @@ namespace Utils
                 soundCallbackDelegate = SoundCallbackPlaying;
                 CheckError(waveOutOpen(ref waveHandle, deviceIndex, ref waveFormatEx, soundCallbackDelegate, this, CALLBACK_FUNCTION));
             }
+
+            warmup = 2;
 
             for (int i = 0; i < 2; ++i)
             {
@@ -361,7 +364,15 @@ namespace Utils
                     }
                 }
 
-                dwInstance.OnNewDataPresent(data);
+                //skip first buffers with uncertain data
+                if (dwInstance.warmup > 0)
+                {
+                    dwInstance.warmup--;
+                }
+                else
+                {
+                    dwInstance.OnNewDataPresent(data);
+                }
             }
         }
 
