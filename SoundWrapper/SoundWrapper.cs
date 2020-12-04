@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Linq;
 
 namespace Utils
 {
@@ -30,7 +31,7 @@ namespace Utils
 
             public override string ToString()
             {
-                return string.Format("{0}: {1}", index, name);
+                return string.Format("{0}", name);
             }
         }
         
@@ -78,12 +79,15 @@ namespace Utils
             }
         }
 
-        public void Start(int device)
+        public void Start(DeviceInfo device)
         {
             if (waveHandle != IntPtr.Zero)
             {
                 return;
             }
+
+            var devByName = EnumerateDevices().FirstOrDefault(i => i.name == device.name);
+            uint deviceIndex = ((uint?)devByName?.index) ?? WAVE_MAPPER;
 
             WAVEFORMATEX waveFormatEx = new WAVEFORMATEX();
             waveFormatEx.wFormatTag = WAVE_FORMAT_PCM;
@@ -98,12 +102,12 @@ namespace Utils
             if (mode == Mode.Record)
             {
                 soundCallbackDelegate = SoundCallbackRecording;
-                CheckError(waveInOpen(ref waveHandle, (uint)device, ref waveFormatEx, soundCallbackDelegate, this, CALLBACK_FUNCTION));
+                CheckError(waveInOpen(ref waveHandle, deviceIndex, ref waveFormatEx, soundCallbackDelegate, this, CALLBACK_FUNCTION));
             }
             else if (mode == Mode.Play)
             {
                 soundCallbackDelegate = SoundCallbackPlaying;
-                CheckError(waveOutOpen(ref waveHandle, (uint)device, ref waveFormatEx, soundCallbackDelegate, this, CALLBACK_FUNCTION));
+                CheckError(waveOutOpen(ref waveHandle, deviceIndex, ref waveFormatEx, soundCallbackDelegate, this, CALLBACK_FUNCTION));
             }
 
             for (int i = 0; i < 2; ++i)

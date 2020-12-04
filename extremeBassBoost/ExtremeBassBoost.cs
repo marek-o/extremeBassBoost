@@ -141,7 +141,7 @@ namespace extremeBassBoost
                 return;
             }
 
-            int device = ((SoundWrapper.DeviceInfo)comboBoxPlay.SelectedItem).index;
+            var device = (SoundWrapper.DeviceInfo)comboBoxPlay.SelectedItem;
             isPlaying = true;
             player.Start(device);
 
@@ -173,7 +173,7 @@ namespace extremeBassBoost
 
         private void buttonDSPStart_Click(object sender, EventArgs e)
         {
-            int device = ((SoundWrapper.DeviceInfo)comboBoxRec.SelectedItem).index;
+            var device = (SoundWrapper.DeviceInfo)comboBoxRec.SelectedItem;
             timerStartup.Start();
             recorder.Start(device);
 
