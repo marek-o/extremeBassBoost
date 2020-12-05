@@ -38,8 +38,8 @@ namespace extremeBassBoost
 
         Queue<short[]> queue = new Queue<short[]>();
 
-        private short bass1L, bass2L;
-        private short bass1R, bass2R;
+        private double bass1L, bass2L;
+        private double bass1R, bass2R;
 
         private bool clipping = false;
         private bool underrun = false;
@@ -50,7 +50,7 @@ namespace extremeBassBoost
         private bool wasUnderrun = false;
         private bool wasOverrun = false;
 
-        private short Limit(float value)
+        private short Limit(double value)
         {
             if (value > short.MaxValue)
             {
@@ -76,14 +76,14 @@ namespace extremeBassBoost
 
                 for (int i = 0; i < buf.Length && i < e.data.Length; i += 2)
                 {
-                    short inputL = buf[i];
-                    short inputR = buf[i + 1];
+                    double inputL = buf[i];
+                    double inputR = buf[i + 1];
 
-                    bass1L = (short)(bass1L + filterFreq * (inputL - bass1L));
-                    bass2L = (short)(bass2L + filterFreq * (bass1L - bass2L));
+                    bass1L = bass1L + filterFreq * (inputL - bass1L);
+                    bass2L = bass2L + filterFreq * (bass1L - bass2L);
 
-                    bass1R = (short)(bass1R + filterFreq * (inputR - bass1R));
-                    bass2R = (short)(bass2R + filterFreq * (bass1R - bass2R));
+                    bass1R = bass1R + filterFreq * (inputR - bass1R);
+                    bass2R = bass2R + filterFreq * (bass1R - bass2R);
 
                     short outputL = Limit(volumeSmoothed * (bassBoostSmoothed * bass2L + inputL));
                     short outputR = Limit(volumeSmoothed * (bassBoostSmoothed * bass2R + inputR));
